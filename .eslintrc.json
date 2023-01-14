@@ -8,6 +8,11 @@
     {
       "extends": ["xo-typescript", "prettier"],
       "files": "*.ts"
+    },
+    {
+      "extends": ["plugin:jest/recommended"],
+      "plugins": ["jest"],
+      "files": ["*.test.ts"]
     }
   ],
   "parserOptions": {
