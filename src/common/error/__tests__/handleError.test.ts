@@ -13,7 +13,7 @@ describe("Given a handleError function", () => {
       handleError(customError);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toBe(customErrorMessage);
+      expect(mockMessageArgument).toEqual(customErrorMessage);
     });
 
     test("It should call logger.error with the custom error", () => {
@@ -36,7 +36,7 @@ describe("Given a handleError function", () => {
       handleError(error);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toBe(errorMessage);
+      expect(mockMessageArgument).toEqual(errorMessage);
     });
 
     test("It should call logger.error with a custom error", () => {
@@ -48,13 +48,13 @@ describe("Given a handleError function", () => {
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
       expect(mockMetadataArgument).toBeInstanceOf(CustomError);
-      expect(mockMetadataArgument?.cause).toBe(error);
-      expect((mockMetadataArgument as CustomError).statusCode).toBe(
+      expect(mockMetadataArgument?.cause).toEqual(error);
+      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
         generalErrorStatusCode
       );
-      expect(mockMetadataArgument?.name).toBe(error.name);
-      expect(mockMetadataArgument?.message).toBe(error.message);
-      expect(mockMetadataArgument?.stack).toBe(error.stack);
+      expect(mockMetadataArgument?.name).toEqual(error.name);
+      expect(mockMetadataArgument?.message).toEqual(error.message);
+      expect(mockMetadataArgument?.stack).toEqual(error.stack);
     });
   });
 
@@ -67,7 +67,7 @@ describe("Given a handleError function", () => {
       handleError(string);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toBe(expectedErrorMessage);
+      expect(mockMessageArgument).toEqual(expectedErrorMessage);
     });
 
     test("It should call logger.error with a general-error custom error", () => {
@@ -79,8 +79,8 @@ describe("Given a handleError function", () => {
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
       expect(mockMetadataArgument).toBeInstanceOf(CustomError);
-      expect(mockMetadataArgument?.name).toBe(generalErrorName);
-      expect((mockMetadataArgument as CustomError).statusCode).toBe(
+      expect(mockMetadataArgument?.name).toEqual(generalErrorName);
+      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
         generalErrorStatusCode
       );
     });

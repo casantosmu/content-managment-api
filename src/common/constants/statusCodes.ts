@@ -1,4 +1,5 @@
 const statusCodes = {
+  forbidden: 403,
   notFound: 404,
   internalServerError: 500,
 } as const;
