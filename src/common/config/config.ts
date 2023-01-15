@@ -6,6 +6,7 @@ const config = {
   isTest: env.isTest,
   isDev: env.isDev,
   port: env.PORT,
+  logLevel: env.LOG_LEVEL,
 };
 
 export default config;

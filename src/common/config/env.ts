@@ -12,6 +12,12 @@ const env = cleanEnv(process.env, {
   PORT: num({
     default: 3000,
   }),
+  LOG_LEVEL: str({
+    choices: ["debug", "info", "warn", "error", "fatal"],
+    default: "info",
+    devDefault: "debug",
+    desc: "Specifies the level of detail of the log messages that are written to the log.",
+  }),
 });
 
 export default env;
