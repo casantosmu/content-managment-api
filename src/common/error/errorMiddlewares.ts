@@ -21,3 +21,7 @@ export const generalErrorMiddleware = (
 
   res.status(statusCode).json({ error: message });
 };
+
+export const notFoundMiddleware = (_req: Request, res: Response) => {
+  res.status(statusCodes.notFound).json({ error: "Not found" });
+};
