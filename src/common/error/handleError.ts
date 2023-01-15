@@ -1,6 +1,7 @@
 import CustomError from "./CustomError";
 import util from "util";
 import logger from "../logger";
+import statusCodes from "../constants/statusCodes";
 
 const normalizeError = (errorToHandle: unknown): CustomError => {
   if (errorToHandle instanceof CustomError) {
@@ -11,7 +12,7 @@ const normalizeError = (errorToHandle: unknown): CustomError => {
     const customError = new CustomError(
       errorToHandle.name,
       errorToHandle.message,
-      500,
+      statusCodes.internalServerError,
       { cause: errorToHandle }
     );
     customError.stack = errorToHandle.stack;

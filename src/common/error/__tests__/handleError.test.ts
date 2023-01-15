@@ -42,12 +42,16 @@ describe("Given a handleError function", () => {
     test("It should call logger.error with a custom error", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
       const error = new Error("Err message");
+      const generalErrorStatusCode = statusCodes.internalServerError;
 
       handleError(error);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
       expect(mockMetadataArgument).toBeInstanceOf(CustomError);
       expect(mockMetadataArgument?.cause).toBe(error);
+      expect((mockMetadataArgument as CustomError).statusCode).toBe(
+        generalErrorStatusCode
+      );
       expect(mockMetadataArgument?.name).toBe(error.name);
       expect(mockMetadataArgument?.message).toBe(error.message);
       expect(mockMetadataArgument?.stack).toBe(error.stack);
