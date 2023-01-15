@@ -1,7 +1,10 @@
 import { type Request, type Response } from "express";
 import statusCodes from "../../constants/statusCodes";
 import CustomError from "../CustomError";
-import { generalErrorMiddleware } from "../errorMiddlewares";
+import {
+  generalErrorMiddleware,
+  notFoundMiddleware,
+} from "../errorMiddlewares";
 import handleError from "../handleError";
 
 jest.mock("../handleError");
@@ -55,11 +58,31 @@ describe("Given a generalError middleware", () => {
 
   test("Then it should call json method from res with 'Not allowed' as error message", () => {
     const errorMessage = "Not allowed";
-    const error = new CustomError("", errorMessage, 403);
+    const error = new CustomError("", errorMessage);
     const expectedJson = { error: errorMessage };
 
     generalErrorMiddleware(error, req as Request, res as Response, next);
 
     expect(res.json).toHaveBeenCalledWith(expectedJson);
+  });
+});
+
+describe("Given a notFound middleware", () => {
+  describe("When its called with request and response", () => {
+    test("Then it should call method send from response with notFoundStatus", () => {
+      const expectedStatusCode = statusCodes.notFound;
+
+      notFoundMiddleware(req as Request, res as Response);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
+    });
+
+    test("Then it should call method json from response with an error property with 'Not found'", () => {
+      const expectedJson = { error: "Not found" };
+
+      notFoundMiddleware(req as Request, res as Response);
+
+      expect(res.json).toHaveBeenCalledWith(expectedJson);
+    });
   });
 });
