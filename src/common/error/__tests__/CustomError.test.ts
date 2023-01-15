@@ -1,5 +1,5 @@
-import statusCodes from "../constants/statusCodes";
-import CustomError from "./CustomError";
+import statusCodes from "../../constants/statusCodes";
+import CustomError from "../CustomError";
 
 describe("Given a CustomError class,", () => {
   describe("When it is instantiated with a name,", () => {
