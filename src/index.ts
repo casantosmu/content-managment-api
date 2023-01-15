@@ -1,14 +1,11 @@
-import express from "express";
-import { config } from "./common/config";
-import logger from "./common/logger";
+import handleError from "./common/error/handleError";
+import app from "./app";
+import { startServer } from "./server";
 
-const app = express();
-const { port } = config;
-
-app.get("/", (_req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  logger.info(`Example app listening on port ${port}`);
-});
+(async () => {
+  try {
+    await startServer(app);
+  } catch (error) {
+    handleError(error);
+  }
+})();
