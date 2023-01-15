@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node .",
-    "start:watch": "nodemon",
+    "start:watch": "nodemon | npx pino-pretty",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "tsc --project tsconfig.build.json",
@@ -43,6 +43,8 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "envalid": "^7.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "pino": "^8.8.0",
+    "pino-http": "^8.3.1"
   }
 }
