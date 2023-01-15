@@ -1,4 +1,5 @@
 const statusCodes = {
+  notFound: 404,
   internalServerError: 500,
 } as const;
 
