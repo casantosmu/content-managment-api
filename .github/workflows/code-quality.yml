@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
+        env:
+          PORT: ${{ secrets.PORT }}
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
