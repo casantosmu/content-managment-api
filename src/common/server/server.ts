@@ -1,8 +1,8 @@
 import { type Express } from "express";
 import { type AddressInfo } from "net";
 import { type Server } from "http";
-import logger from "./common/logger";
-import { config } from "./common/config";
+import { config } from "../config";
+import logger from "../logger";
 
 let connection: Server;
 

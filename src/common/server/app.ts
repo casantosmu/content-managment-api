@@ -3,9 +3,9 @@ import helmet from "helmet";
 import {
   generalErrorMiddleware,
   notFoundMiddleware,
-} from "./common/error/errorMiddlewares";
-import { loggerHttp } from "./common/logger";
-import router from "./common/router";
+} from "../error/errorMiddlewares";
+import { loggerHttp } from "../logger";
+import router from "../router";
 
 const app = express();
 

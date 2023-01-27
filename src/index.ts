@@ -1,6 +1,6 @@
 import handleError from "./common/error/handleError";
-import app from "./app";
-import { startServer } from "./server";
+import app from "./common/server/app";
+import { startServer } from "./common/server/server";
 
 (async () => {
   try {
