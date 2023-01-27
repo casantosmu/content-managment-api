@@ -7,7 +7,7 @@
   "overrides": [
     {
       "extends": ["xo-typescript", "prettier"],
-      "files": "*.ts"
+      "files": ["*.ts"]
     },
     {
       "extends": ["plugin:jest/recommended"],
