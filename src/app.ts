@@ -5,6 +5,7 @@ import {
   notFoundMiddleware,
 } from "./common/error/errorMiddlewares";
 import { loggerHttp } from "./common/logger";
+import router from "./common/router";
 
 const app = express();
 
@@ -12,9 +13,7 @@ app.use(loggerHttp());
 app.use(helmet());
 app.use(express.json());
 
-app.get("/", (_req, res) => {
-  res.send("Hello World!");
-});
+app.use(router);
 
 app.use(notFoundMiddleware);
 app.use(generalErrorMiddleware);
