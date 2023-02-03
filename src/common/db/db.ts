@@ -8,7 +8,13 @@ attachDbLogger(initOptions);
 const pgp = pgPromise(initOptions);
 
 const config: pg.IConnectionParameters = {
-  ...dbConfig,
+  host: dbConfig.host,
+  port: dbConfig.port,
+  database: dbConfig.database,
+  user: dbConfig.user,
+  password: dbConfig.password,
+  max: dbConfig.maxConnections,
+  idleTimeoutMillis: dbConfig.idleTimeoutMillis,
   allowExitOnIdle: true,
 };
 
