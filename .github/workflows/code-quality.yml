@@ -13,7 +13,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Use Node.js
         env:
-          PORT: ${{ secrets.PORT }}
+          DB_PORT: 5432
+          DB_HOST: localhost
+          DB_NAME: content-management-api-test
+          DB_USER: test
+          DB_PASSWORD: test
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
