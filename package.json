@@ -6,11 +6,10 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "node .",
-    "start:watch": "nodemon | npx pino-pretty",
+    "dev": "nodemon src/index.ts | pino-pretty",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "tsc --project tsconfig.build.json",
-    "build:watch": "tsc --watch",
     "lint:fix": "eslint --fix .",
     "lint:check": "eslint .",
     "format:fix": "prettier --write .",
