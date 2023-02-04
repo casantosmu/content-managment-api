@@ -5,9 +5,9 @@ class AppError extends Error {
     override readonly name: string,
     override readonly message: string,
     readonly statusCode: StatusCodes = statusCodes.internalServerError,
-    errorOptions?: ErrorOptions
+    readonly options?: ErrorOptions
   ) {
-    super(name, errorOptions);
+    super(name, options);
   }
 }
 
