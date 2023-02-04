@@ -1,4 +1,4 @@
-name: Code Quality
+name: code quality
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   code-quality:
-    name: Code Quality
+    name: code quality
     runs-on: ubuntu-latest
 
     env:
@@ -17,18 +17,18 @@ jobs:
       DB_PASSWORD: test
 
     steps:
-      - name: Check Out Code
+      - name: check out code
         uses: actions/checkout@v3
 
-      - name: Set Up Node
+      - name: set up node
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
 
-      - name: Install Dependencies
+      - name: install dependencies
         run: npm ci
 
-      - name: Print Environment Variables
+      - name: print environment variables
         run: |
           echo "DB_PORT: $DB_PORT"
           echo "DB_HOST: $DB_HOST"
@@ -36,11 +36,11 @@ jobs:
           echo "DB_USER: $DB_USER"
           echo "DB_PASSWORD: $DB_PASSWORD"
 
-      - name: Lint Check
+      - name: lint check
         run: npm run lint:check
 
-      - name: Format Check
+      - name: format check
         run: npm run format:check
 
-      - name: Test Coverage
+      - name: test coverage
         run: npm run test:coverage
