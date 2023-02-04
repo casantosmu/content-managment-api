@@ -2,7 +2,7 @@ import pino from "pino";
 import pinoHttp from "pino-http";
 import { config } from "./config";
 
-type LogLevels = "debug" | "info" | "warn" | "error" | "fatal";
+export type LogLevels = "debug" | "info" | "warn" | "error" | "fatal";
 
 const pinoLogger = pino({
   level: config.isTest ? "silent" : config.logLevel,

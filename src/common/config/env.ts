@@ -18,6 +18,11 @@ const env = cleanEnv(process.env, {
     devDefault: "debug",
     desc: "Specifies the level of detail of the log messages that are written to the log.",
   }),
+  DB_PORT: num(),
+  DB_HOST: str(),
+  DB_NAME: str(),
+  DB_USER: str(),
+  DB_PASSWORD: str(),
 });
 
 export default env;
