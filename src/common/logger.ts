@@ -1,6 +1,7 @@
 import pino from "pino";
 import pinoHttp from "pino-http";
 import { config } from "./config";
+import { objectUtils } from "./utils";
 
 export type LogLevels = "debug" | "info" | "warn" | "error" | "fatal";
 
@@ -23,7 +24,17 @@ export const loggerHttp = () =>
 const logger =
   (level: LogLevels) =>
   (message: string, metadata?: Record<string, unknown> | Error) => {
-    pinoLogger[level](metadata, message);
+    if (metadata instanceof Error) {
+      pinoLogger[level](metadata, message);
+      return;
+    }
+
+    if (!metadata || objectUtils.isEmpty(metadata)) {
+      pinoLogger[level](message);
+      return;
+    }
+
+    pinoLogger[level]({ metadata }, message);
   };
 
 export default {
