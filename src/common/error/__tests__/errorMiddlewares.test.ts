@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express";
-import statusCodes from "../../constants/statusCodes";
-import CustomError from "../CustomError";
+import { statusCodes } from "../../constants";
+import { CustomError } from "..";
 import {
   generalErrorMiddleware,
   notFoundMiddleware,

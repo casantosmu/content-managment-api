@@ -1,9 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import {
-  generalErrorMiddleware,
-  notFoundMiddleware,
-} from "../error/errorMiddlewares";
+import { generalErrorMiddleware, notFoundMiddleware } from "../error";
 import { loggerHttp } from "../logger";
 import router from "../router";
 

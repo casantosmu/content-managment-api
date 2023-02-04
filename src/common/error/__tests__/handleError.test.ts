@@ -1,7 +1,7 @@
-import statusCodes from "../../constants/statusCodes";
+import { statusCodes } from "../../constants";
 import logger from "../../logger";
-import CustomError from "../CustomError";
-import handleError from "../handleError";
+import { CustomError } from "..";
+import { handleError } from "..";
 
 describe("Given a handleError function", () => {
   describe("When it is instantiated with a Custom Error", () => {

@@ -1,12 +1,8 @@
 import env from "./env";
 
-const config = {
-  nodeEnv: env.NODE_ENV,
-  isProduction: env.isProduction,
-  isTest: env.isTest,
-  isDev: env.isDev,
-  port: env.PORT,
-  logLevel: env.LOG_LEVEL,
-};
-
-export default config;
+export const nodeEnv = env.NODE_ENV;
+export const { isProduction } = env;
+export const { isTest } = env;
+export const { isDev } = env;
+export const port = env.PORT;
+export const logLevel = env.LOG_LEVEL;

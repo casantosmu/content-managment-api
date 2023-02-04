@@ -1,5 +1,5 @@
 import { getDb } from ".";
-import CustomError from "../error/CustomError";
+import { CustomError } from "../error";
 import logger from "../logger";
 
 export const testDb = async () =>
