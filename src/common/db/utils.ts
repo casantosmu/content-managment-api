@@ -1,4 +1,5 @@
 import { getDb } from ".";
+import { statusCodes } from "../constants";
 import { AppError } from "../error";
 import logger from "../logger";
 
@@ -15,7 +16,7 @@ export const testDb = async () =>
         const dbConnectionError = new AppError(
           "dbConnectionError",
           "Error checking database connection",
-          500,
+          statusCodes.internalServerError,
           { cause: error }
         );
         reject(dbConnectionError);
