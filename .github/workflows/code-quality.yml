@@ -1,27 +1,46 @@
-name: Code quality
+name: Code Quality
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  build:
-    name: code quality
+  code-quality:
+    name: Code Quality
     runs-on: ubuntu-latest
 
+    env:
+      DB_PORT: 5432
+      DB_HOST: localhost
+      DB_NAME: content-management-api-test
+      DB_USER: test
+      DB_PASSWORD: test
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        env:
-          DB_PORT: 5432
-          DB_HOST: localhost
-          DB_NAME: content-management-api-test
-          DB_USER: test
-          DB_PASSWORD: test
+      - name: Check Out Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Node
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-      - run: npm ci
-      - run: npm run lint:check
-      - run: npm run format:check
-      - run: npm run test:coverage
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Print Environment Variables
+        run: |
+          echo "DB_PORT: $DB_PORT"
+          echo "DB_HOST: $DB_HOST"
+          echo "DB_NAME: $DB_NAME"
+          echo "DB_USER: $DB_USER"
+          echo "DB_PASSWORD: $DB_PASSWORD"
+
+      - name: Lint Check
+        run: npm run lint:check
+
+      - name: Format Check
+        run: npm run format:check
+
+      - name: Test Coverage
+        run: npm run test:coverage
