@@ -1,5 +1,5 @@
 import { getDb } from ".";
-import { CustomError } from "../error";
+import { AppError } from "../error";
 import logger from "../logger";
 
 export const testDb = async () =>
@@ -12,7 +12,7 @@ export const testDb = async () =>
         logger.info("Database connection check completed successfully");
         resolve();
       } catch (error) {
-        const dbConnectionError = new CustomError(
+        const dbConnectionError = new AppError(
           "dbConnectionError",
           "Error checking database connection",
           500,

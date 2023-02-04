@@ -1,29 +1,28 @@
 import { statusCodes } from "../../constants";
 import logger from "../../logger";
-import { CustomError } from "..";
-import { handleError } from "..";
+import { AppError, handleError } from "..";
 
 describe("Given a handleError function", () => {
-  describe("When it is instantiated with a Custom Error", () => {
-    test("It should call logger.error with the custom error message", () => {
+  describe("When it is called with a App Error", () => {
+    test("It should call logger.error with the app error message", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const customErrorMessage = "Err message";
-      const customError = new CustomError("", customErrorMessage);
+      const appErrorMessage = "Err message";
+      const appError = new AppError("", appErrorMessage);
 
-      handleError(customError);
+      handleError(appError);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toEqual(customErrorMessage);
+      expect(mockMessageArgument).toEqual(appErrorMessage);
     });
 
-    test("It should call logger.error with the custom error", () => {
+    test("It should call logger.error with the app error", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const customError = new CustomError("Name", "Message");
+      const appError = new AppError("Name", "Message");
 
-      handleError(customError);
+      handleError(appError);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toStrictEqual(customError);
+      expect(mockMetadataArgument).toStrictEqual(appError);
     });
   });
 
@@ -39,7 +38,7 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(errorMessage);
     });
 
-    test("It should call logger.error with a custom error", () => {
+    test("It should call logger.error with a app error", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
       const error = new Error("Err message");
       const generalErrorStatusCode = statusCodes.internalServerError;
@@ -47,9 +46,9 @@ describe("Given a handleError function", () => {
       handleError(error);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(CustomError);
+      expect(mockMetadataArgument).toBeInstanceOf(AppError);
       expect(mockMetadataArgument?.cause).toEqual(error);
-      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
+      expect((mockMetadataArgument as AppError).statusCode).toEqual(
         generalErrorStatusCode
       );
       expect(mockMetadataArgument?.name).toEqual(error.name);
@@ -70,7 +69,7 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(expectedErrorMessage);
     });
 
-    test("It should call logger.error with a general-error custom error", () => {
+    test("It should call logger.error with a general-error app error", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
       const generalErrorName = "general-error";
       const generalErrorStatusCode = statusCodes.internalServerError;
@@ -78,9 +77,9 @@ describe("Given a handleError function", () => {
       handleError("");
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(CustomError);
+      expect(mockMetadataArgument).toBeInstanceOf(AppError);
       expect(mockMetadataArgument?.name).toEqual(generalErrorName);
-      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
+      expect((mockMetadataArgument as AppError).statusCode).toEqual(
         generalErrorStatusCode
       );
     });

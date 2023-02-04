@@ -1,6 +1,6 @@
 import { statusCodes, type StatusCodes } from "../constants";
 
-class CustomError extends Error {
+class AppError extends Error {
   constructor(
     override readonly name: string,
     override readonly message: string,
@@ -11,4 +11,4 @@ class CustomError extends Error {
   }
 }
 
-export default CustomError;
+export default AppError;

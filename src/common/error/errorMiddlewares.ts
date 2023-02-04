@@ -1,10 +1,10 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { statusCodes } from "../constants";
-import CustomError from "./CustomError";
+import AppError from "./AppError";
 import handleError from "./handleError";
 
 export const generalErrorMiddleware = (
-  error: Error | CustomError,
+  error: Error | AppError,
   _req: Request,
   res: Response,
   _next: NextFunction
@@ -12,12 +12,11 @@ export const generalErrorMiddleware = (
   handleError(error);
 
   const statusCode =
-    error instanceof CustomError
+    error instanceof AppError
       ? error.statusCode
       : statusCodes.internalServerError;
 
-  const message =
-    error instanceof CustomError ? error.message : "General error";
+  const message = error instanceof AppError ? error.message : "General error";
 
   res.status(statusCode).json({ error: message });
 };

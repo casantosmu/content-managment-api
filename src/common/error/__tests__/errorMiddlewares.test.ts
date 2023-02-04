@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express";
 import { statusCodes } from "../../constants";
-import { CustomError } from "..";
+import AppError from "../AppError";
 import {
   generalErrorMiddleware,
   notFoundMiddleware,
@@ -45,10 +45,10 @@ describe("Given a generalError middleware", () => {
     });
   });
 
-  describe("When its called with an Custom Error with status code forbidden", () => {
+  describe("When its called with an App Error with status code forbidden", () => {
     test("Then it should call status method from res with forbidden status code", () => {
       const forbiddenStatusCode = statusCodes.forbidden;
-      const error = new CustomError("", "", forbiddenStatusCode);
+      const error = new AppError("", "", forbiddenStatusCode);
 
       generalErrorMiddleware(error, req as Request, res as Response, next);
 
@@ -58,7 +58,7 @@ describe("Given a generalError middleware", () => {
 
   test("Then it should call json method from res with 'Not allowed' as error message", () => {
     const errorMessage = "Not allowed";
-    const error = new CustomError("", errorMessage);
+    const error = new AppError("", errorMessage);
     const expectedJson = { error: errorMessage };
 
     generalErrorMiddleware(error, req as Request, res as Response, next);
