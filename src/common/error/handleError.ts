@@ -1,7 +1,7 @@
 import CustomError from "./CustomError";
 import util from "util";
 import logger from "../logger";
-import statusCodes from "../constants/statusCodes";
+import { statusCodes } from "../constants";
 
 const normalizeError = (errorToHandle: unknown): CustomError => {
   if (errorToHandle instanceof CustomError) {

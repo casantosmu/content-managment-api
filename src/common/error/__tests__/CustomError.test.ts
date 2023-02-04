@@ -1,4 +1,4 @@
-import statusCodes from "../../constants/statusCodes";
+import { statusCodes } from "../../constants";
 import CustomError from "../CustomError";
 
 describe("Given a CustomError class,", () => {

@@ -1,4 +1,4 @@
-import statusCodes, { type StatusCodes } from "../constants/statusCodes";
+import { statusCodes, type StatusCodes } from "../constants";
 
 class CustomError extends Error {
   constructor(

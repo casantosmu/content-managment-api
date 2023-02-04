@@ -3,23 +3,39 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["xo", "prettier"],
+  "extends": ["xo"],
   "overrides": [
     {
-      "extends": ["xo-typescript", "prettier"],
+      "extends": ["xo-typescript"],
       "files": ["*.ts"]
+    },
+    {
+      "rules": {
+        "no-console": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["../*/**/*"]
+          }
+        ]
+      },
+      "files": ["*"]
     },
     {
       "extends": ["plugin:jest/recommended"],
       "plugins": ["jest"],
+      "rules": {
+        "no-restricted-imports": ["off"]
+      },
       "files": ["*.test.ts"]
+    },
+    {
+      "extends": ["prettier"],
+      "files": ["*"]
     }
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
-  },
-  "rules": {
-    "no-console": "error"
   }
 }

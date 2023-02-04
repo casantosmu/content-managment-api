@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from "express";
-import statusCodes from "../constants/statusCodes";
+import { statusCodes } from "../constants";
 import CustomError from "./CustomError";
 import handleError from "./handleError";
 
