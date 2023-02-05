@@ -17,3 +17,14 @@ export class InternalError extends AppError {
     );
   }
 }
+
+export class NotFoundError extends AppError {
+  constructor({ name, message, options }: ErrorProps = {}) {
+    super(
+      name ?? "notFoundError",
+      message ?? "Resource not found",
+      statusCodes.notFound,
+      options
+    );
+  }
+}
