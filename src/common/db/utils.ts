@@ -12,12 +12,12 @@ export const testDb = async () =>
         logger.info("Database connection check completed successfully");
         resolve();
       } catch (error) {
-        const dbConnectionError = new InternalError({
+        const testDbError = new InternalError({
           name: "testDbError",
           message: "Error checking database connection",
           options: { cause: error },
         });
-        reject(dbConnectionError);
+        reject(testDbError);
       }
     })();
   });
