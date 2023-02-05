@@ -1,7 +1,7 @@
 import AppError from "./AppError";
 import util from "util";
 import logger from "../logger";
-import { statusCodes } from "../constants";
+import { InternalError } from "./appErrors";
 
 const normalizeError = (errorToHandle: unknown): AppError => {
   if (errorToHandle instanceof AppError) {
@@ -9,23 +9,21 @@ const normalizeError = (errorToHandle: unknown): AppError => {
   }
 
   if (errorToHandle instanceof Error) {
-    const appError = new AppError(
-      errorToHandle.name,
-      errorToHandle.message,
-      statusCodes.internalServerError,
-      { cause: errorToHandle }
-    );
+    const appError = new InternalError({
+      name: errorToHandle.name,
+      message: errorToHandle.message,
+      options: { cause: errorToHandle },
+    });
     appError.stack = errorToHandle.stack;
     return appError;
   }
 
   const inputType = typeof errorToHandle;
-  return new AppError(
-    "general-error",
-    `Error Handler received a none error instance with type - ${inputType}, value - ${util.inspect(
+  return new InternalError({
+    message: `Error Handler received a none error instance with type - ${inputType}, value - ${util.inspect(
       errorToHandle
-    )}`
-  );
+    )}`,
+  });
 };
 
 const handleError = (errorToHandle: unknown) => {

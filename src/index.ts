@@ -1,12 +1,16 @@
 import { testDb } from "./common/db";
-import handleError from "./common/error/handleError";
-import { startServer } from "./common/server/server";
+import { handleError, InternalError } from "./common/error";
+import { startServer } from "./common/server";
 
 (async () => {
   try {
     await startServer();
     await testDb();
   } catch (error) {
-    handleError(error);
+    const startUpError = new InternalError({
+      name: "startUpError",
+      options: { cause: error },
+    });
+    handleError(startUpError);
   }
 })();

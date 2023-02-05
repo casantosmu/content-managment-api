@@ -1,6 +1,6 @@
-import { statusCodes } from "../../constants";
 import logger from "../../logger";
-import { AppError, handleError } from "..";
+import { handleError, InternalError } from "..";
+import AppError from "../AppError";
 
 describe("Given a handleError function", () => {
   describe("When it is called with a App Error", () => {
@@ -38,18 +38,18 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(errorMessage);
     });
 
-    test("It should call logger.error with a app error", () => {
+    test("It should call logger.error with a InternalError", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
       const error = new Error("Err message");
-      const generalErrorStatusCode = statusCodes.internalServerError;
+      const internalErrorStatusCode = new InternalError().statusCode;
 
       handleError(error);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(AppError);
+      expect(mockMetadataArgument).toBeInstanceOf(InternalError);
       expect(mockMetadataArgument?.cause).toEqual(error);
-      expect((mockMetadataArgument as AppError).statusCode).toEqual(
-        generalErrorStatusCode
+      expect((mockMetadataArgument as InternalError).statusCode).toEqual(
+        internalErrorStatusCode
       );
       expect(mockMetadataArgument?.name).toEqual(error.name);
       expect(mockMetadataArgument?.message).toEqual(error.message);
@@ -69,19 +69,16 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(expectedErrorMessage);
     });
 
-    test("It should call logger.error with a general-error app error", () => {
+    test("It should call logger.error with a InternalError", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const generalErrorName = "general-error";
-      const generalErrorStatusCode = statusCodes.internalServerError;
+      const { statusCode, name } = new InternalError();
 
       handleError("");
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(AppError);
-      expect(mockMetadataArgument?.name).toEqual(generalErrorName);
-      expect((mockMetadataArgument as AppError).statusCode).toEqual(
-        generalErrorStatusCode
-      );
+      expect(mockMetadataArgument).toBeInstanceOf(InternalError);
+      expect(mockMetadataArgument?.name).toEqual(name);
+      expect((mockMetadataArgument as AppError).statusCode).toEqual(statusCode);
     });
   });
 });
