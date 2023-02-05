@@ -1,28 +1,26 @@
 import logger from "../../logger";
-import { handleError, InternalError } from "..";
-import AppError from "../AppError";
+import { handleError, InternalError, NotFoundError } from "..";
 
 describe("Given a handleError function", () => {
-  describe("When it is called with a App Error", () => {
-    test("It should call logger.error with the app error message", () => {
+  describe("When it is called with a NotFound Error", () => {
+    test("It should call logger.error with the NotFoundError message", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const appErrorMessage = "Err message";
-      const appError = new AppError("", appErrorMessage);
+      const notFoundError = new NotFoundError();
 
-      handleError(appError);
+      handleError(notFoundError);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toEqual(appErrorMessage);
+      expect(mockMessageArgument).toEqual(notFoundError.message);
     });
 
-    test("It should call logger.error with the app error", () => {
+    test("It should call logger.error with the NotFoundError", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const appError = new AppError("Name", "Message");
+      const notFoundError = new NotFoundError();
 
-      handleError(appError);
+      handleError(notFoundError);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toStrictEqual(appError);
+      expect(mockMetadataArgument).toStrictEqual(notFoundError);
     });
   });
 
@@ -78,7 +76,9 @@ describe("Given a handleError function", () => {
 
       expect(mockMetadataArgument).toBeInstanceOf(InternalError);
       expect(mockMetadataArgument?.name).toEqual(name);
-      expect((mockMetadataArgument as AppError).statusCode).toEqual(statusCode);
+      expect((mockMetadataArgument as InternalError).statusCode).toEqual(
+        statusCode
+      );
     });
   });
 });

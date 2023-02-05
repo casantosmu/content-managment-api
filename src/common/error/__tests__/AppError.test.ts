@@ -1,4 +1,3 @@
-import { statusCodes } from "../../constants";
 import AppError from "../AppError";
 
 describe("Given a AppError class,", () => {
@@ -6,7 +5,7 @@ describe("Given a AppError class,", () => {
     test("It should correctly assign it to the name property.", () => {
       const name = "TestError";
 
-      const result = new AppError(name, "");
+      const result = new AppError(name, "", 404);
 
       expect(result.name).toEqual(name);
     });
@@ -16,7 +15,7 @@ describe("Given a AppError class,", () => {
     test("It should correctly assign it to the message property.", () => {
       const message = "This is a test error";
 
-      const result = new AppError("", message);
+      const result = new AppError("", message, 404);
 
       expect(result.message).toEqual(message);
     });
@@ -29,16 +28,6 @@ describe("Given a AppError class,", () => {
       const result = new AppError("", "", statusCode);
 
       expect(result.statusCode).toEqual(statusCode);
-    });
-  });
-
-  describe("When it is instantiated without a status code,", () => {
-    test("It should assign internalServerError to the statusCode property.", () => {
-      const defaultStatusCode = statusCodes.internalServerError;
-
-      const result = new AppError("", "");
-
-      expect(result.statusCode).toEqual(defaultStatusCode);
     });
   });
 

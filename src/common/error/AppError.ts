@@ -1,10 +1,10 @@
-import { statusCodes, type StatusCodes } from "../constants";
+import { type StatusCodes } from "../constants";
 
 class AppError extends Error {
   constructor(
     override readonly name: string,
     override readonly message: string,
-    readonly statusCode: StatusCodes = statusCodes.internalServerError,
+    readonly statusCode: StatusCodes,
     readonly options?: ErrorOptions
   ) {
     super(name, options);
