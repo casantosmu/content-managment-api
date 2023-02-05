@@ -179,7 +179,10 @@ describe("Given a BadRequestError class", () => {
 
   describe("When instantiated with options", () => {
     test("The options property of the badRequestError instance should equal the provided options", () => {
-      const options = { cause: new Error() };
+      const options = {
+        cause: new Error(),
+        details: [{ name: "Error detail name", message: "Error detail msg" }],
+      };
 
       const badRequestError = new BadRequestError({ options });
 

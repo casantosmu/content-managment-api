@@ -7,6 +7,20 @@ type ErrorProps = {
   options?: ErrorOptions;
 };
 
+export type ErrorDetail = {
+  name: string;
+  message: string;
+  target?: string;
+};
+
+type ErrorOptionsWithErrorDetails = {
+  details?: ErrorDetail[];
+} & ErrorOptions;
+
+type ErrorPropsWithErrorDetails = {
+  options?: ErrorOptionsWithErrorDetails;
+} & ErrorProps;
+
 export class InternalError extends AppError {
   constructor({ name, message, options }: ErrorProps = {}) {
     super(
@@ -30,7 +44,7 @@ export class NotFoundError extends AppError {
 }
 
 export class BadRequestError extends AppError {
-  constructor({ name, message, options }: ErrorProps = {}) {
+  constructor({ name, message, options }: ErrorPropsWithErrorDetails = {}) {
     super(
       name ?? "badRequestError",
       message ?? "Bad request",
