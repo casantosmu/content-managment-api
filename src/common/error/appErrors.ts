@@ -28,3 +28,14 @@ export class NotFoundError extends AppError {
     );
   }
 }
+
+export class BadRequestError extends AppError {
+  constructor({ name, message, options }: ErrorProps = {}) {
+    super(
+      name ?? "badRequestError",
+      message ?? "Bad request",
+      statusCodes.badRequest,
+      options
+    );
+  }
+}
