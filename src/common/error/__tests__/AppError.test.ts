@@ -1,12 +1,11 @@
-import { statusCodes } from "../../constants";
-import CustomError from "../CustomError";
+import AppError from "../AppError";
 
-describe("Given a CustomError class,", () => {
+describe("Given a AppError class,", () => {
   describe("When it is instantiated with a name,", () => {
     test("It should correctly assign it to the name property.", () => {
       const name = "TestError";
 
-      const result = new CustomError(name, "");
+      const result = new AppError(name, "", 404);
 
       expect(result.name).toEqual(name);
     });
@@ -16,7 +15,7 @@ describe("Given a CustomError class,", () => {
     test("It should correctly assign it to the message property.", () => {
       const message = "This is a test error";
 
-      const result = new CustomError("", message);
+      const result = new AppError("", message, 404);
 
       expect(result.message).toEqual(message);
     });
@@ -26,19 +25,9 @@ describe("Given a CustomError class,", () => {
     test("it should correctly assign it to the statusCode property.", () => {
       const statusCode = 404;
 
-      const result = new CustomError("", "", statusCode);
+      const result = new AppError("", "", statusCode);
 
       expect(result.statusCode).toEqual(statusCode);
-    });
-  });
-
-  describe("When it is instantiated without a status code,", () => {
-    test("It should assign internalServerError to the statusCode property.", () => {
-      const defaultStatusCode = statusCodes.internalServerError;
-
-      const result = new CustomError("", "");
-
-      expect(result.statusCode).toEqual(defaultStatusCode);
     });
   });
 
@@ -46,7 +35,7 @@ describe("Given a CustomError class,", () => {
     test("It should assign the error to the cause property.", () => {
       const causeError = new Error("Cause error");
 
-      const result = new CustomError("", "", 404, { cause: causeError });
+      const result = new AppError("", "", 404, { cause: causeError });
 
       expect(result.cause).toEqual(causeError);
     });
@@ -54,7 +43,7 @@ describe("Given a CustomError class,", () => {
 
   describe("When it is instantiated,", () => {
     test("It should return an instance of Error.", () => {
-      const result = new CustomError("", "", 404);
+      const result = new AppError("", "", 404);
 
       expect(result).toBeInstanceOf(Error);
     });

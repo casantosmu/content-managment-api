@@ -1,27 +1,38 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { statusCodes } from "../constants";
-import CustomError from "./CustomError";
+import AppError from "./AppError";
+import { InternalError, NotFoundError } from "./appErrors";
 import handleError from "./handleError";
 
+export const isPublicError = (error: Error | AppError): error is AppError =>
+  error instanceof AppError && !(error instanceof InternalError);
+
 export const generalErrorMiddleware = (
-  error: Error | CustomError,
+  error: Error | AppError,
   _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   handleError(error);
 
-  const statusCode =
-    error instanceof CustomError
-      ? error.statusCode
-      : statusCodes.internalServerError;
+  const { message, name, statusCode } = isPublicError(error)
+    ? error
+    : new InternalError();
 
-  const message =
-    error instanceof CustomError ? error.message : "General error";
-
-  res.status(statusCode).json({ error: message });
+  res.status(statusCode).json({
+    error: {
+      name,
+      message,
+    },
+  });
 };
 
 export const notFoundMiddleware = (_req: Request, res: Response) => {
-  res.status(statusCodes.notFound).json({ error: "Not found" });
+  const { name, message, statusCode } = new NotFoundError();
+
+  res.status(statusCode).json({
+    error: {
+      name,
+      message,
+    },
+  });
 };

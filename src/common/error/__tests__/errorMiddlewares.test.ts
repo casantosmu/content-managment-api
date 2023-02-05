@@ -1,6 +1,5 @@
 import { type Request, type Response } from "express";
-import { statusCodes } from "../../constants";
-import { CustomError } from "..";
+import { InternalError, NotFoundError } from "../appErrors";
 import {
   generalErrorMiddleware,
   notFoundMiddleware,
@@ -26,18 +25,24 @@ describe("Given a generalError middleware", () => {
       expect(handleError).toHaveBeenCalledWith(error);
     });
 
-    test("Then it should call status method from response with internalServerError", () => {
+    test("Then it should call status method from response with InternalError status code", () => {
       const error = new Error();
-      const expectedStatusCode = statusCodes.internalServerError;
+      const expectedStatusCode = new InternalError().statusCode;
 
       generalErrorMiddleware(error, req as Request, res as Response, next);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
     });
 
-    test("Then it should call json method from response with 'General error'", () => {
+    test("Then it should call json method from response with InternalError name and message", () => {
       const error = new Error();
-      const expectedJson = { error: "General error" };
+      const { name, message } = new InternalError();
+      const expectedJson = {
+        error: {
+          name,
+          message,
+        },
+      };
 
       generalErrorMiddleware(error, req as Request, res as Response, next);
 
@@ -45,23 +50,36 @@ describe("Given a generalError middleware", () => {
     });
   });
 
-  describe("When its called with an Custom Error with status code forbidden", () => {
-    test("Then it should call status method from res with forbidden status code", () => {
-      const forbiddenStatusCode = statusCodes.forbidden;
-      const error = new CustomError("", "", forbiddenStatusCode);
+  describe("When its called with a NotFoundError", () => {
+    test("Then it should call status method from res with NotFound status code", () => {
+      const notFoundError = new NotFoundError();
 
-      generalErrorMiddleware(error, req as Request, res as Response, next);
+      generalErrorMiddleware(
+        notFoundError,
+        req as Request,
+        res as Response,
+        next
+      );
 
-      expect(res.status).toHaveBeenCalledWith(forbiddenStatusCode);
+      expect(res.status).toHaveBeenCalledWith(notFoundError.statusCode);
     });
   });
 
-  test("Then it should call json method from res with 'Not allowed' as error message", () => {
-    const errorMessage = "Not allowed";
-    const error = new CustomError("", errorMessage);
-    const expectedJson = { error: errorMessage };
+  test("Then it should call json method from res with NotFound error message and name", () => {
+    const notFoundError = new NotFoundError();
+    const expectedJson = {
+      error: {
+        name: notFoundError.name,
+        message: notFoundError.message,
+      },
+    };
 
-    generalErrorMiddleware(error, req as Request, res as Response, next);
+    generalErrorMiddleware(
+      notFoundError,
+      req as Request,
+      res as Response,
+      next
+    );
 
     expect(res.json).toHaveBeenCalledWith(expectedJson);
   });
@@ -69,16 +87,22 @@ describe("Given a generalError middleware", () => {
 
 describe("Given a notFound middleware", () => {
   describe("When its called with request and response", () => {
-    test("Then it should call method send from response with notFoundStatus", () => {
-      const expectedStatusCode = statusCodes.notFound;
+    test("Then it should call method send from response with NotFoundError status code", () => {
+      const expectedStatusCode = new NotFoundError().statusCode;
 
       notFoundMiddleware(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
     });
 
-    test("Then it should call method json from response with an error property with 'Not found'", () => {
-      const expectedJson = { error: "Not found" };
+    test("Then it should call method json from response with an error property with NotFoundError name and message", () => {
+      const { name, message } = new NotFoundError();
+      const expectedJson = {
+        error: {
+          name,
+          message,
+        },
+      };
 
       notFoundMiddleware(req as Request, res as Response);
 

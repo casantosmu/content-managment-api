@@ -1,36 +1,38 @@
-import CustomError from "./CustomError";
+import AppError from "./AppError";
 import util from "util";
-import logger from "../logger";
-import { statusCodes } from "../constants";
+import logger, { type LogLevels } from "../logger";
+import { InternalError } from "./appErrors";
 
-const normalizeError = (errorToHandle: unknown): CustomError => {
-  if (errorToHandle instanceof CustomError) {
+const normalizeError = (errorToHandle: unknown): AppError => {
+  if (errorToHandle instanceof AppError) {
     return errorToHandle;
   }
 
   if (errorToHandle instanceof Error) {
-    const customError = new CustomError(
-      errorToHandle.name,
-      errorToHandle.message,
-      statusCodes.internalServerError,
-      { cause: errorToHandle }
-    );
-    customError.stack = errorToHandle.stack;
-    return customError;
+    const appError = new InternalError({
+      name: errorToHandle.name,
+      message: errorToHandle.message,
+      options: { cause: errorToHandle },
+    });
+    appError.stack = errorToHandle.stack;
+    return appError;
   }
 
   const inputType = typeof errorToHandle;
-  return new CustomError(
-    "general-error",
-    `Error Handler received a none error instance with type - ${inputType}, value - ${util.inspect(
+  return new InternalError({
+    message: `Error Handler received a none error instance with type - ${inputType}, value - ${util.inspect(
       errorToHandle
-    )}`
-  );
+    )}`,
+  });
 };
 
 const handleError = (errorToHandle: unknown) => {
-  const customError: CustomError = normalizeError(errorToHandle);
-  logger.error(customError.message, customError);
+  const appError: AppError = normalizeError(errorToHandle);
+
+  const logLevel: LogLevels =
+    appError instanceof InternalError ? "error" : "warn";
+
+  logger[logLevel](appError.message, appError);
 };
 
 export default handleError;

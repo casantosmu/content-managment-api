@@ -3,6 +3,7 @@ import app from "./app";
 import { type AddressInfo } from "net";
 import { config } from "../config";
 import logger from "../logger";
+import { InternalError } from "../error";
 
 let connection: Server;
 
@@ -15,7 +16,11 @@ export const startServer = async () =>
     });
 
     connection.once("error", (error) => {
-      reject(error);
+      const startServerError = new InternalError({
+        name: "startServerError",
+        options: { cause: error },
+      });
+      reject(startServerError);
     });
   });
 

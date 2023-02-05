@@ -1,29 +1,26 @@
-import { statusCodes } from "../../constants";
 import logger from "../../logger";
-import { CustomError } from "..";
-import { handleError } from "..";
+import { handleError, InternalError, NotFoundError } from "..";
 
 describe("Given a handleError function", () => {
-  describe("When it is instantiated with a Custom Error", () => {
-    test("It should call logger.error with the custom error message", () => {
-      const loggerErrorSpy = jest.spyOn(logger, "error");
-      const customErrorMessage = "Err message";
-      const customError = new CustomError("", customErrorMessage);
+  describe("When it is called with a NotFound Error", () => {
+    test("It should call logger.error with the NotFoundError message", () => {
+      const loggerErrorSpy = jest.spyOn(logger, "warn");
+      const notFoundError = new NotFoundError();
 
-      handleError(customError);
+      handleError(notFoundError);
       const mockMessageArgument = loggerErrorSpy?.mock?.calls?.[0]?.[0];
 
-      expect(mockMessageArgument).toEqual(customErrorMessage);
+      expect(mockMessageArgument).toEqual(notFoundError.message);
     });
 
-    test("It should call logger.error with the custom error", () => {
-      const loggerErrorSpy = jest.spyOn(logger, "error");
-      const customError = new CustomError("Name", "Message");
+    test("It should call logger.error with the NotFoundError", () => {
+      const loggerErrorSpy = jest.spyOn(logger, "warn");
+      const notFoundError = new NotFoundError();
 
-      handleError(customError);
+      handleError(notFoundError);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toStrictEqual(customError);
+      expect(mockMetadataArgument).toStrictEqual(notFoundError);
     });
   });
 
@@ -39,18 +36,18 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(errorMessage);
     });
 
-    test("It should call logger.error with a custom error", () => {
+    test("It should call logger.error with a InternalError", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
       const error = new Error("Err message");
-      const generalErrorStatusCode = statusCodes.internalServerError;
+      const internalErrorStatusCode = new InternalError().statusCode;
 
       handleError(error);
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(CustomError);
+      expect(mockMetadataArgument).toBeInstanceOf(InternalError);
       expect(mockMetadataArgument?.cause).toEqual(error);
-      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
-        generalErrorStatusCode
+      expect((mockMetadataArgument as InternalError).statusCode).toEqual(
+        internalErrorStatusCode
       );
       expect(mockMetadataArgument?.name).toEqual(error.name);
       expect(mockMetadataArgument?.message).toEqual(error.message);
@@ -70,18 +67,17 @@ describe("Given a handleError function", () => {
       expect(mockMessageArgument).toEqual(expectedErrorMessage);
     });
 
-    test("It should call logger.error with a general-error custom error", () => {
+    test("It should call logger.error with a InternalError", () => {
       const loggerErrorSpy = jest.spyOn(logger, "error");
-      const generalErrorName = "general-error";
-      const generalErrorStatusCode = statusCodes.internalServerError;
+      const { statusCode, name } = new InternalError();
 
       handleError("");
       const mockMetadataArgument = loggerErrorSpy?.mock?.calls?.[0]?.[1];
 
-      expect(mockMetadataArgument).toBeInstanceOf(CustomError);
-      expect(mockMetadataArgument?.name).toEqual(generalErrorName);
-      expect((mockMetadataArgument as CustomError).statusCode).toEqual(
-        generalErrorStatusCode
+      expect(mockMetadataArgument).toBeInstanceOf(InternalError);
+      expect(mockMetadataArgument?.name).toEqual(name);
+      expect((mockMetadataArgument as InternalError).statusCode).toEqual(
+        statusCode
       );
     });
   });

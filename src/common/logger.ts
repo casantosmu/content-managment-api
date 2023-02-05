@@ -41,6 +41,6 @@ export default {
   debug: logger("debug"),
   error: logger("error"),
   info: logger("info"),
-  warning: logger("warn"),
+  warn: logger("warn"),
   fatal: logger("fatal"),
 };
