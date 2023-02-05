@@ -4,7 +4,7 @@ import { handleError, InternalError, NotFoundError } from "..";
 describe("Given a handleError function", () => {
   describe("When it is called with a NotFound Error", () => {
     test("It should call logger.error with the NotFoundError message", () => {
-      const loggerErrorSpy = jest.spyOn(logger, "error");
+      const loggerErrorSpy = jest.spyOn(logger, "warn");
       const notFoundError = new NotFoundError();
 
       handleError(notFoundError);
@@ -14,7 +14,7 @@ describe("Given a handleError function", () => {
     });
 
     test("It should call logger.error with the NotFoundError", () => {
-      const loggerErrorSpy = jest.spyOn(logger, "error");
+      const loggerErrorSpy = jest.spyOn(logger, "warn");
       const notFoundError = new NotFoundError();
 
       handleError(notFoundError);

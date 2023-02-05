@@ -1,6 +1,6 @@
 import AppError from "./AppError";
 import util from "util";
-import logger from "../logger";
+import logger, { type LogLevels } from "../logger";
 import { InternalError } from "./appErrors";
 
 const normalizeError = (errorToHandle: unknown): AppError => {
@@ -28,7 +28,11 @@ const normalizeError = (errorToHandle: unknown): AppError => {
 
 const handleError = (errorToHandle: unknown) => {
   const appError: AppError = normalizeError(errorToHandle);
-  logger.error(appError.message, appError);
+
+  const logLevel: LogLevels =
+    appError instanceof InternalError ? "error" : "warn";
+
+  logger[logLevel](appError.message, appError);
 };
 
 export default handleError;
