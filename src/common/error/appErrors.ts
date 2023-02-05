@@ -12,7 +12,7 @@ export class InternalError extends AppError {
     super(
       name ?? "internalError",
       message ?? "An internal error has occurred",
-      statusCodes.internalServerError,
+      statusCodes.internalError,
       options
     );
   }

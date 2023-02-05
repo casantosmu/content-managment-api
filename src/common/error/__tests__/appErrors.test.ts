@@ -5,65 +5,61 @@ import { InternalError, NotFoundError } from "../appErrors";
 describe("Given a InternalError class", () => {
   describe("When instantiated", () => {
     test("Then it should be an instance of AppError", () => {
-      const internalServerError = new InternalError();
+      const internalError = new InternalError();
 
-      expect(internalServerError).toBeInstanceOf(AppError);
+      expect(internalError).toBeInstanceOf(AppError);
     });
 
-    test("Then it should have a default status code of 500 (internal server error)", () => {
-      const internalServerError = new InternalError();
+    test("Then it should have a default status code of 500 (internal error)", () => {
+      const internalError = new InternalError();
 
-      expect(internalServerError.statusCode).toEqual(
-        statusCodes.internalServerError
-      );
+      expect(internalError.statusCode).toEqual(statusCodes.internalError);
     });
   });
 
   describe("When instantiated with 'baseError' as the name", () => {
-    test("The name property of the internalServerError instance should equal 'baseError'", () => {
+    test("The name property of the internalError instance should equal 'baseError'", () => {
       const errorName = "baseError";
 
-      const internalServerError = new InternalError({ name: errorName });
+      const internalError = new InternalError({ name: errorName });
 
-      expect(internalServerError.name).toEqual(errorName);
+      expect(internalError.name).toEqual(errorName);
     });
   });
 
   describe("When instantiated without providing the name", () => {
-    test("The name property of the internalServerError instance should be 'internalError'", () => {
-      const internalServerError = new InternalError();
+    test("The name property of the internalError instance should be 'internalError'", () => {
+      const internalError = new InternalError();
 
-      expect(internalServerError.name).toEqual("internalError");
+      expect(internalError.name).toEqual("internalError");
     });
   });
 
   describe("When instantiated with a custom message", () => {
-    test("The message property of the internalServerError instance should equal the custom message", () => {
+    test("The message property of the internalError instance should equal the custom message", () => {
       const customMessage = "A custom internal error has occurred";
 
-      const internalServerError = new InternalError({ message: customMessage });
+      const internalError = new InternalError({ message: customMessage });
 
-      expect(internalServerError.message).toEqual(customMessage);
+      expect(internalError.message).toEqual(customMessage);
     });
   });
 
   describe("When instantiated without providing the message", () => {
-    test("The message property of the internalServerError instance should be 'An internal error has occurred'", () => {
-      const internalServerError = new InternalError();
+    test("The message property of the internalError instance should be 'An internal error has occurred'", () => {
+      const internalError = new InternalError();
 
-      expect(internalServerError.message).toEqual(
-        "An internal error has occurred"
-      );
+      expect(internalError.message).toEqual("An internal error has occurred");
     });
   });
 
   describe("When instantiated with options", () => {
-    test("The options property of the internalServerError instance should equal the provided options", () => {
+    test("The options property of the internalError instance should equal the provided options", () => {
       const options = { cause: new Error() };
 
-      const internalServerError = new InternalError({ options });
+      const internalError = new InternalError({ options });
 
-      expect(internalServerError.options).toEqual(options);
+      expect(internalError.options).toEqual(options);
     });
   });
 });
