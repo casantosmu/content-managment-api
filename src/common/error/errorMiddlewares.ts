@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { statusCodes } from "../constants";
 import AppError from "./AppError";
+import { NotFoundError } from "./appErrors";
 import handleError from "./handleError";
 
 export const generalErrorMiddleware = (
@@ -22,5 +23,12 @@ export const generalErrorMiddleware = (
 };
 
 export const notFoundMiddleware = (_req: Request, res: Response) => {
-  res.status(statusCodes.notFound).json({ error: "Not found" });
+  const { name, message, statusCode } = new NotFoundError();
+
+  res.status(statusCode).json({
+    error: {
+      name,
+      message,
+    },
+  });
 };

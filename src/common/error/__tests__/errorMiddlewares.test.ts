@@ -1,6 +1,7 @@
 import { type Request, type Response } from "express";
 import { statusCodes } from "../../constants";
 import AppError from "../AppError";
+import { NotFoundError } from "../appErrors";
 import {
   generalErrorMiddleware,
   notFoundMiddleware,
@@ -69,16 +70,22 @@ describe("Given a generalError middleware", () => {
 
 describe("Given a notFound middleware", () => {
   describe("When its called with request and response", () => {
-    test("Then it should call method send from response with notFoundStatus", () => {
-      const expectedStatusCode = statusCodes.notFound;
+    test("Then it should call method send from response with codeStatus from NotFoundError", () => {
+      const expectedStatusCode = new NotFoundError().statusCode;
 
       notFoundMiddleware(req as Request, res as Response);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
     });
 
-    test("Then it should call method json from response with an error property with 'Not found'", () => {
-      const expectedJson = { error: "Not found" };
+    test("Then it should call method json from response with an error property with and message from NotFoundError", () => {
+      const { name, message } = new NotFoundError();
+      const expectedJson = {
+        error: {
+          name,
+          message,
+        },
+      };
 
       notFoundMiddleware(req as Request, res as Response);
 
